@@ -1,22 +1,27 @@
 argv="$@";
 argc="$#";
 
-cd ../simplesim-3.0;
+source settings.sh;
 
-make clean;
+cd ${simplesim_directory};
+
+config="";
 
 if [ ${argc} != 1 ]; then 
-	echo "alpha or pisa";
+	echo "alpha or pisa or tests";
 	exit;
 elif [ ${argv[0]} == "alpha" ]; then
-	make config-alpha;
+	config="config-alpha";
 elif [ ${argv[0]} == "pisa" ]; then 
-	make config-pisa;
+	config="config-pisa";
+elif [ ${argv[0]} == "tests"]; then
+	make sim-tests;
+	exit;
 else 
 	echo "alpha or pisa";
 	exit;
 fi
 
+make clean;
+make ${config};
 make;
-
-make sim-tests;
